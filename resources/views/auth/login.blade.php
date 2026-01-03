@@ -33,6 +33,14 @@
                 로그인
             </button>
         </form>
+        
+        <div class="mt-6 text-center">
+            <p class="text-gray-600 text-sm mb-2">아직 회원이 아니신가요?</p>
+            <a href="{{ route('register') }}" 
+                class="text-blue-500 hover:text-blue-700 font-semibold text-sm">
+                회원가입 하기 →
+            </a>
+        </div>
     </div>
 </body>
 </html>

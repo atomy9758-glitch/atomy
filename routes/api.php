@@ -18,6 +18,9 @@ Route::prefix('atomy/api')->group(function () {
     // 인증 API
     Route::post('/auth/login', [AuthController::class, 'apiLogin']);
     Route::post('/auth/logout', [AuthController::class, 'apiLogout'])->middleware('auth:sanctum');
+    
+    // 추천인 검증 API (공개)
+    Route::get('/members/check/{username}', [AuthController::class, 'checkUsername']);
 
     // 회원 API (Sanctum 인증)
     Route::middleware(['auth:sanctum'])->prefix('me')->group(function () {
