@@ -44,6 +44,17 @@ class ClosureService
     }
 
     /**
+     * addMember는 insertMember의 별칭 (하위 호환성)
+     * 
+     * @param Member $member
+     * @return void
+     */
+    public function addMember(Member $member): void
+    {
+        $this->insertMember($member);
+    }
+
+    /**
      * 회원 삭제 시 Closure 정리 (자동으로 CASCADE되지만 명시적 메서드)
      * 
      * @param int $memberId
