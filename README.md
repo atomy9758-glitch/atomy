@@ -64,3 +64,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## GenSpark AI Development
+이 프로젝트는 GenSpark AI에 의해 개발되었습니다.

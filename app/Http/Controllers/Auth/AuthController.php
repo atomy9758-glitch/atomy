@@ -32,12 +32,15 @@ class AuthController extends Controller
         // 세션 로그인
         auth()->login($member);
 
+        // 세션 재생성 (보안)
+        $request->session()->regenerate();
+
         // 관리자면 관리자 대시보드로, 아니면 회원 대시보드로
         if ($member->isAdmin()) {
-            return redirect()->route('admin.dashboard');
+            return redirect('/admin');
         }
 
-        return redirect()->route('member.dashboard');
+        return redirect('/me');
     }
 
     public function apiLogin(Request $request)
