@@ -12,45 +12,42 @@ use App\Http\Controllers\Admin\PayoutController as AdminPayout;
 use App\Http\Controllers\Admin\SettingsController as AdminSettings;
 use App\Http\Controllers\Admin\SearchController as AdminSearch;
 
-// API 라우트는 모두 /atomy/api prefix 사용
-Route::prefix('atomy/api')->group(function () {
-    
-    // 인증 API
-    Route::post('/auth/login', [AuthController::class, 'apiLogin']);
-    Route::post('/auth/logout', [AuthController::class, 'apiLogout'])->middleware('auth:sanctum');
-    
-    // 추천인 검증 API (공개)
-    Route::get('/members/check/{username}', [AuthController::class, 'checkUsername']);
+// Nginx가 /atomy/api를 처리하므로, API는 별도 prefix 없음
+// 인증 API
+Route::post('/auth/login', [AuthController::class, 'apiLogin']);
+Route::post('/auth/logout', [AuthController::class, 'apiLogout'])->middleware('auth:sanctum');
 
-    // 회원 API (Sanctum 인증)
-    Route::middleware(['auth:sanctum'])->prefix('me')->group(function () {
-        Route::get('/balance', [MemberDashboard::class, 'apiBalance']);
-        Route::get('/payouts', [MemberPayout::class, 'index']);
-        Route::get('/ledger', [MemberLedger::class, 'index']);
-    });
+// 추천인 검증 API (공개)
+Route::get('/members/check/{username}', [AuthController::class, 'checkUsername']);
 
-    // 관리자 API (Sanctum 인증 + 관리자 권한)
-    Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
-        Route::get('/stats', [AdminDashboard::class, 'apiStats']);
-        
-        // 회원 관리
-        Route::get('/members', [AdminMember::class, 'apiIndex']);
-        Route::post('/members', [AdminMember::class, 'store']);
-        Route::get('/members/{id}', [AdminMember::class, 'show']);
-        
-        // PV 관리
-        Route::post('/pv', [AdminPv::class, 'store']);
-        Route::get('/pv/ledger', [AdminPv::class, 'ledger']);
-        
-        // 수당 관리
-        Route::get('/payouts', [AdminPayout::class, 'index']);
-        Route::get('/payouts/{id}', [AdminPayout::class, 'show']);
-        
-        // 설정 관리
-        Route::get('/settings', [AdminSettings::class, 'index']);
-        Route::post('/settings', [AdminSettings::class, 'store']);
-        
-        // 통합 검색
-        Route::get('/search', [AdminSearch::class, 'index']);
-    });
+// 회원 API (Sanctum 인증)
+Route::middleware(['auth:sanctum'])->prefix('me')->group(function () {
+    Route::get('/balance', [MemberDashboard::class, 'apiBalance']);
+    Route::get('/payouts', [MemberPayout::class, 'index']);
+    Route::get('/ledger', [MemberLedger::class, 'index']);
+});
+
+// 관리자 API (Sanctum 인증 + 관리자 권한)
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/stats', [AdminDashboard::class, 'apiStats']);
+    
+    // 회원 관리
+    Route::get('/members', [AdminMember::class, 'apiIndex']);
+    Route::post('/members', [AdminMember::class, 'store']);
+    Route::get('/members/{id}', [AdminMember::class, 'show']);
+    
+    // PV 관리
+    Route::post('/pv', [AdminPv::class, 'store']);
+    Route::get('/pv/ledger', [AdminPv::class, 'ledger']);
+    
+    // 수당 관리
+    Route::get('/payouts', [AdminPayout::class, 'index']);
+    Route::get('/payouts/{id}', [AdminPayout::class, 'show']);
+    
+    // 설정 관리
+    Route::get('/settings', [AdminSettings::class, 'index']);
+    Route::post('/settings', [AdminSettings::class, 'store']);
+    
+    // 통합 검색
+    Route::get('/search', [AdminSearch::class, 'index']);
 });
